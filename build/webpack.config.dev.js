@@ -36,6 +36,11 @@ _cfg.plugins = webpackBaseConfig.plugins
             filename: '[name].css',
             allChunks: true,
         }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                "NODE_ENV": JSON.stringify('dev')
+            }
+        })
     ])
     .concat(getHtmlChunks())
 
