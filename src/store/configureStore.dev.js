@@ -8,9 +8,9 @@ const history = createHistory();
 
 const reduxRouterMiddleware = routerMiddleware(history);
 
-const finalCreateStore = composeWithDevTool(
+const finalCreateStore = compose(
     applyMiddleware(thunk),
-    applyMiddleware(reduxRouterMiddleware);
+    applyMiddleware(reduxRouterMiddleware)
 )(createStore);
 
 export default function configureStore(initialState) {

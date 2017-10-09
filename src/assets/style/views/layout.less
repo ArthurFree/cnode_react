@@ -1,0 +1,42 @@
+@import '../index.less';
+
+.item-header {
+    vertical-align: middle;
+    &::after {
+        content: '\B7';
+        color: '#b2bac2';
+        margin: 0 0.1rem;
+    }
+}
+
+.item-title {
+    font-weight: bold;
+    vertical-align: middle;
+    display: inline-block;
+    width: 83%;
+}
+
+.item-avatar {
+    width: 1rem;
+    height: 1rem;
+    float: left;
+
+    /* & img {
+        border-radius: 50%;
+    } */
+}
+
+.item-content {
+    padding: 0.1rem 0 0 0;
+    overflow: hidden;
+    zoom: 1;
+
+    .item-text {
+        margin-left: 1.2rem;
+        font-size: 0.26rem;
+
+        .second-line {
+            margin-top: 0.2rem;
+        }
+    }
+}

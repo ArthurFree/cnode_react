@@ -1,0 +1,24 @@
+.tag-component {
+  font-size: 0.3rem;
+  font-weight: 400;
+  padding: 0.05rem 0.06rem;
+  border-radius: 0.05rem;
+}
+.listItem-wrapper {
+  font-size: .6rem;
+  padding: 0.2rem 0;
+  width: 100%;
+  min-height: 1.8rem;
+  height: 1.8rem;
+  border-bottom: 0.01rem solid #000;
+}
+.listItem-wrapper .listItem-container {
+  height: 100%;
+  margin: 0rem 0.15rem;
+  border: 0.01rem solid red;
+}
+.listItem-wrapper .listItem-container .listItem-header {
+  font-size: 0.3rem;
+  padding: 0.05rem 0 0.1rem 0;
+  border-bottom: 0.01rem solid #000;
+}

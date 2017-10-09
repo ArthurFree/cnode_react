@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter, HashRouter, Switch } from 'react-router-dom';
 import createHistory from 'history/createHashHistory';
-import { getRoute, asyncComponent, asyncComponent2 } from './core';
+import { getRoute, asyncComponent } from './core';
 
 const history = createHistory();
 

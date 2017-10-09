@@ -1,10 +1,21 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const pxtorem = require('postcss-pxtorem');
 
 function resolve(dir) {
     return path.join(__dirname, '..', dir);
 }
+
+const postcssOpts = {
+    ident: 'postcss',
+    plugins: () => [
+        autoprefixer({
+            browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'Android >= 4']
+        }),
+        pxtorem({ rootValue: 100, propWhiteList: [] })
+    ]
+};
 
 module.exports = {
 
@@ -19,12 +30,20 @@ module.exports = {
         filename: '[name].js',
         chunkFilename: '[id].chunk.js',
         path: resolve('dist/static'),
-        publicPath: '/static/',
+        publicPath: './static/',
     },
 
     resolve: {
         modules: [resolve('node_modules'), resolve('src')],
         extensions: ['.js', '.jsx', '.json', '.css', '.less'],
+        alias: {
+            'assets': resolve('./src/assets'),
+            'actions': resolve('./src/actions'),
+            'reducers': resolve('./src/reducers'),
+            // 'actionType': resolve('./src/constants/actionType.js'),
+            // 'utils': resolve('./src/utils'),
+            'components': resolve('./src/components'),
+        }
     },
 
     module: {
@@ -81,7 +100,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
-                        'css-loader', 'less-loader'
+                        'css-loader', { loader: 'postcss-loader', options: postcssOpts }, 'less-loader'
                     ]
                 })
             },
@@ -90,7 +109,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
-                        'css-loader'
+                        'css-loader', { loader: 'postcss-loader', options: postcssOpts }
                     ]
                 })
             }
