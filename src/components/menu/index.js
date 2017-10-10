@@ -9,7 +9,10 @@ export default class Menu extends React.Component {
 
     render() {
         return (
-            <div></div>
+            <div className="menu-component">
+                <div className="menu-cover"></div>
+                <div className="menu-nav"></div>
+            </div>
         )
     }
 }

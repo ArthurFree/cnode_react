@@ -6,6 +6,7 @@ import { Link, withRouter } from 'react-router-dom';
 import Tag from 'components/tag';
 import ListItem from 'components/listItem';
 import Header from 'components/header';
+import Menu from 'components/menu';
 import 'assets/style/views/layout.less';
 import defaultAvatar from 'assets/imgs/default-avatar.png';
 
@@ -42,9 +43,12 @@ class Layout extends React.Component {
         )
             // <img className="item-avatar" src={defaultAvatar} alt="默认头像" />
             // <Tag text="置顶" backgroundColor="#e74c3c" />
+            // <Menu></Menu>
         return (
             <div>
                 <Header></Header>
+                <div style={{ margin: '1rem' }}></div>
+                <i className="icon iconfont cnode-star"></i>
                 <ListItem header={headerNode} content={contentNode} />
                 <ListItem header={headerNode} content={contentNode} />
                 <ListItem header={headerNode} content={contentNode} />

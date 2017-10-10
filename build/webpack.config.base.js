@@ -66,35 +66,35 @@ module.exports = {
             {
                 test: /\.woff(\?t=\d+)?$/,
                 loader: "url-loader?limit=10000&minetype=application/font-woff",
-                include: path.join(__dirname, "./src/assets/iconfont")
+                include: resolve("./src/assets/iconfont")
             },
             {
                 test: /\.woff2(\?t=\d+)?$/,
                 loader: "url-loader?limit=10000&minetype=application/font-woff",
-                include: path.join(__dirname, "./src/assets/iconfont")
+                include: resolve("./src/assets/iconfont")
             },
             {
                 test: /\.ttf(\?t=\d+)?$/,
                 loader: "url-loader?limit=10000&minetype=application/octet-stream",
-                include: path.join(__dirname, "./src/assets/iconfont")
+                include: resolve("./src/assets/iconfont")
             },
             {
                 test: /\.eot(\?t=\d+(#iefix)?)?$/,
-                loader: "file-loader",
-                include: path.join(__dirname, "./src/assets/iconfont")
+                loader: "url-loader?limit=10000&minetype=application/octet-stream",
+                include: resolve("./src/assets/iconfont")
             },
             {
                 test: /\.svg(\?t=\d+(#\w+)?)?$/,
                 loader: "url-loader?limit=10000&minetype=image/svg+xml",
-                include: path.join(__dirname, "./src/assets/iconfont")
+                include: resolve("./src/assets/iconfont")
             },
-            {
-                test: /\.(svg)$/i,
-                loader: 'svg-sprite-loader',
-                include: [
-                    path.resolve(__dirname, './src/assets/iconfont/iconfont.svg'),
-                ]
-            },
+            // {
+            //     test: /\.(svg)$/i,
+            //     loader: 'svg-sprite-loader',
+            //     include: [
+            //         resolve('./src/assets/iconfont/iconfont.svg'),
+            //     ]
+            // },
             {
                 test: /\.less$/i,
                 use: ExtractTextPlugin.extract({

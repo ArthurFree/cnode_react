@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createHashHistory';
 import configureStore from './store';
+import 'assets/iconfont/iconfont.css';
+import 'assets/style/index.less';
 
 const store = configureStore();
 const history = createHistory();
