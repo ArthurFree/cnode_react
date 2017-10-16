@@ -133,3 +133,6 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+.icon {
+  font-size: 0.5rem;
+}
