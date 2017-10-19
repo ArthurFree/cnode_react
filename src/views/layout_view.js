@@ -13,6 +13,16 @@ import defaultAvatar from 'assets/imgs/default-avatar.png';
 class Layout extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isShow: false
+        }
+    }
+
+    handleClick = () => {
+        let { isShow } = this.state;
+        this.setState({
+            isShow: !isShow
+        });
     }
 
     render() {
@@ -39,14 +49,16 @@ class Layout extends React.Component {
                     </div>
                 </div>
             </div>
-            
+
         )
             // <img className="item-avatar" src={defaultAvatar} alt="默认头像" />
             // <Tag text="置顶" backgroundColor="#e74c3c" />
             // <Menu></Menu>
         return (
             <div>
-                <Header></Header>
+                <Header onClick={this.handleClick}></Header>
+                <Menu show={this.state.isShow}></Menu>
+                <input type="file" accept="image/*" style={{ position: 'relative', top: 100 }} />
                 <div style={{ margin: '1rem' }}></div>
                 <i className="icon iconfont cnode-star"></i>
                 <ListItem header={headerNode} content={contentNode} />

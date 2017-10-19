@@ -16,10 +16,17 @@
 
     .menu-nav {
         position: absolute;
+        left: -4rem;
         background-color: white;
-        width: 50%;
+        width: 4rem;
         height: 100%;
         opacity: 1;
         z-index: 2;
+        transition: all .3s ease;
+
+        &.show-nav {
+            // transform: translate(4rem);
+            left: 0rem;
+        }
     }
 }
