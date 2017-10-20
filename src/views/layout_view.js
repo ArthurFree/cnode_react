@@ -7,6 +7,8 @@ import Tag from 'components/tag';
 import ListItem from 'components/listItem';
 import Header from 'components/header';
 import Menu from 'components/menu';
+import Mask from 'components/mask';
+import Modal from 'components/modal';
 import 'assets/style/views/layout.less';
 import defaultAvatar from 'assets/imgs/default-avatar.png';
 
@@ -60,6 +62,13 @@ class Layout extends React.Component {
                 <Menu show={this.state.isShow}></Menu>
                 <input type="file" accept="image/*" style={{ position: 'relative', top: 100 }} />
                 <div style={{ margin: '1rem' }}></div>
+                <Modal title="hello" footer={[{
+                    text: 'hello',
+                }, {
+                    text: 'world'
+                }]}>
+                    hello world
+                </Modal>
                 <i className="icon iconfont cnode-star"></i>
                 <ListItem header={headerNode} content={contentNode} />
                 <ListItem header={headerNode} content={contentNode} />
