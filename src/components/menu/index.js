@@ -29,11 +29,11 @@ export default class Menu extends React.Component {
 
     render() {
         const { show } = this.state;
-        return (
+        return show ? (
             <div className="menu-component">
-                <div className={ show ? 'menu-cover show-nav show' : 'menu-cover hidden' }></div>
-                <div className={ show ? 'menu-nav show-nav show ' : 'menu-nav hidden' }></div>
+                <div className='menu-cover show-nav'></div>
+                <div className='menu-nav show-nav'></div>
             </div>
-        )
+        ) : null;
     }
 }

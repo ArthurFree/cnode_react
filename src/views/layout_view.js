@@ -9,6 +9,7 @@ import Header from 'components/header';
 import Menu from 'components/menu';
 import Mask from 'components/mask';
 import Modal from 'components/modal';
+import NavBar from 'components/navBar';
 import 'assets/style/views/layout.less';
 import defaultAvatar from 'assets/imgs/default-avatar.png';
 
@@ -25,6 +26,10 @@ class Layout extends React.Component {
         this.setState({
             isShow: !isShow
         });
+    }
+
+    testClick = () => {
+        console.log('---- click ---');
     }
 
     render() {
@@ -56,19 +61,24 @@ class Layout extends React.Component {
             // <img className="item-avatar" src={defaultAvatar} alt="默认头像" />
             // <Tag text="置顶" backgroundColor="#e74c3c" />
             // <Menu></Menu>
+            // <Modal title="hello" footer={[{
+            //     text: 'hello',
+            // }, {
+            //     text: 'world'
+            // }]}>
+            //     hello world
+            // </Modal>
         return (
             <div>
                 <Header onClick={this.handleClick}></Header>
                 <Menu show={this.state.isShow}></Menu>
                 <input type="file" accept="image/*" style={{ position: 'relative', top: 100 }} />
                 <div style={{ margin: '1rem' }}></div>
-                <Modal title="hello" footer={[{
-                    text: 'hello',
-                }, {
-                    text: 'world'
-                }]}>
-                    hello world
-                </Modal>
+                <NavBar showLeftArrow={true}
+                    leftContent='back' rightContent='生成合同'
+                    onLeftClick={this.testClick} onRightClick={this.testClick}>
+                    Hello
+                </NavBar>
                 <i className="icon iconfont cnode-star"></i>
                 <ListItem header={headerNode} content={contentNode} />
                 <ListItem header={headerNode} content={contentNode} />

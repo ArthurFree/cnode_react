@@ -6,10 +6,16 @@ import './modal.less';
 export default class Modal extends Component {
     static PropTypes = {
         visible: propTypes.bool,
+        showMask: propTypes.bool,
         maskClose: propTypes.bool,
         onClose: propTypes.func,
         title: propTypes.string,
         footer: propTypes.array,
+    }
+
+    static defaultProps = {
+        showMask: true,
+        maskClose: true
     }
 
     renderFooterBtn = (button, i) => {
@@ -26,8 +32,8 @@ export default class Modal extends Component {
     }
 
     render() {
-        let { children, title, footer } = this.props;
-        const btnGroupClass = footer.length == 2 ? 'h' : 'v'
+        let { children, title, footer, showMask, maskClose } = this.props;
+        const btnGroupClass = footer.length == 2 ? 'h' : 'v';
         const footerDom = footer.length ? (
             <div className={`modal-button-group-${btnGroupClass}`}>
                 { footer.map((button, index) => this.renderFooterBtn(button, index)) }
@@ -36,7 +42,7 @@ export default class Modal extends Component {
 
         return (
             <div className="modal-component">
-                <Mask></Mask>
+                <Mask show={showMask} maskClose={maskClose}></Mask>
                 <div className="modal-wrap">
                     <div className="modal">
                         <div className="modal-content">
