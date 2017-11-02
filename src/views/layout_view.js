@@ -10,6 +10,7 @@ import Menu from 'components/menu';
 import Mask from 'components/mask';
 import Modal from 'components/modal';
 import NavBar from 'components/navBar';
+import Select from 'components/select';
 import 'assets/style/views/layout.less';
 import defaultAvatar from 'assets/imgs/default-avatar.png';
 
@@ -30,6 +31,10 @@ class Layout extends React.Component {
 
     testClick = () => {
         console.log('---- click ---');
+    }
+
+    testClick1 = (e) => {
+        console.log('--- e ---', e);
     }
 
     render() {
@@ -79,6 +84,10 @@ class Layout extends React.Component {
                     onLeftClick={this.testClick} onRightClick={this.testClick}>
                     Hello
                 </NavBar>
+                <Select onChange={this.testClick1}>
+                    <option value="hello">hello</option>
+                    <option value="world">world</option>
+                </Select>
                 <i className="icon iconfont cnode-star"></i>
                 <ListItem header={headerNode} content={contentNode} />
                 <ListItem header={headerNode} content={contentNode} />
