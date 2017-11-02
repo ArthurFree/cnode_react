@@ -40,9 +40,10 @@ module.exports = {
             'assets': resolve('./src/assets'),
             'actions': resolve('./src/actions'),
             'reducers': resolve('./src/reducers'),
-            // 'actionType': resolve('./src/constants/actionType.js'),
-            // 'utils': resolve('./src/utils'),
+            'actionType': resolve('./src/constants/actionType.js'),
+            'utils': resolve('./src/utils'),
             'components': resolve('./src/components'),
+            'constants': resolve('./src/constants')
         }
     },
 

@@ -20,6 +20,10 @@ export default class AppRouter extends Component {
                 {
                     path: '/demo/detail',
                     component: asyncComponent(() => import('../views/demo/detail.js'))
+                },
+                {
+                    path: '/list',
+                    component: asyncComponent(() => import('../views/list/list_view.js'))
                 }
             ]
         };
