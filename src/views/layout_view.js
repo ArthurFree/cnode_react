@@ -40,6 +40,10 @@ class Layout extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('touchmove', this.handleTouch, false);
+    }
+
     // 菜单控制
     handleClick = () => {
         let { isShow } = this.state;
@@ -49,11 +53,22 @@ class Layout extends React.Component {
         });
     }
 
+    handleTouch = (e) => {
+        e.preventDefault();
+    }
+
     // 控制滚动
     scrollControl = () => {
         let { isScroll } = this.state;
         let overflow = isScroll ? 'hidden' : 'visible';
+
         document.documentElement.style.overflow = overflow;
+        if (isScroll) {
+            window.addEventListener('touchmove', this.handleTouch, false);
+        } else {
+            window.removeEventListener('touchmove', this.handleTouch, false);
+        }
+
         this.setState({
             isScroll: !isScroll
         });
