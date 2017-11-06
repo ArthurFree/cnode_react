@@ -4,6 +4,9 @@ import ajax from './request.js';
 
 const utils = {
     ajax,
+    timeAgo() {
+
+    }
 }
 
 

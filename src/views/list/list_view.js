@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
-import { TAG } from 'constants/constants.js';
+import { TAG, TAG_COLOR } from 'constants/constants.js';
 import List from 'components/list';
 import ListItem from 'components/listItem';
 import Tag from 'components/tag';
@@ -18,26 +18,32 @@ class Item extends Component {
     }
 
     getItem() {
-        let { tagText, tagColor, title, avatar, userName } = this.props;
+        let { data } = this.props;
         let headerNode = (
             <span>
-                <span className="item-header"><Tag text={tagText} color={tagColor} /></span>
-                <span className="item-title ellipsis">{title}</span>
+                <span className="item-header">
+                    <Tag text={data.top ? TAG['top'] : data.good ? TAG['good'] : TAG[String(data.tab)]}
+                        color={data.top ? TAG_COLOR['top'] : data.good ? TAG_COLOR['good'] : TAG_COLOR[String(data.tab)]} />
+                </span>
+                <span className="item-title ellipsis">{data.title}</span>
             </span>
             // <span>置顶</span>
         );
         let contentNode = (
             <div className="item-content">
                 <div className="item-avatar">
-                    <img src={avatar ? avatar : defaultAvatar} width="100%" height="100%" alt="默认头像" />
+                    <img src={data.author.avatar_url ? data.author.avatar_url : defaultAvatar}
+                        width="100%" height="100%" alt="默认头像" />
                 </div>
                 <div className="item-text">
                     <div className="first-line">
-                        <span style={{ width: '50%', display: 'inline-block' }}>{name}</span>
+                        <span style={{ width: '50%', display: 'inline-block', fontWeight: 'bold' }}>
+                            {data.author.loginname ? data.author.loginname : ''}
+                        </span>
                         <span>发表于xx</span>
                     </div>
                     <div className="second-line">
-                        <span style={{ width: '50%', display: 'inline-block' }}>回复数/浏览数</span>
+                        <span style={{ width: '50%', display: 'inline-block' }}>{data.reply_count}/{data.visit_count}</span>
                         <span>最后回复于xx</span>
                     </div>
                 </div>
@@ -57,37 +63,57 @@ class Item extends Component {
 class ListPage extends Component {
     constructor(props) {
         super(props);
-    }
-
-    state = {
-        pageNum: 1,
-        pageSize: 10
+        let tab = props.match.params.tab
+        this.state = {
+            pageNum: 1,
+            pageSize: 10,
+            tab: tab == 'all' || !tab ? null : tab,
+        }
     }
 
     componentDidMount() {
         let { actions } = this.props;
         actions.getList({
-            params: this.state.pageNum,
-            limit: this.state.pageSize
+            page: this.state.pageNum,
+            limit: this.state.pageSize,
+            tab: this.state.tab
         });
     }
+
+    // componentWillReceiveProps(nextProps) {
+    //     let tab = nextProps.match.params.tab;
+    //     let { actions } = this.props;
+    //     let prevProps = this.props;
+    //     tab = tab ? tab : null;
+    //     console.log(tab, this.state.tab);
+    //     if (tab !== this.state.tab) {
+    //         this.setState({
+    //             tab: tab == 'all' || !tab ? null : tab,
+    //         }, () => {
+    //             let { pageNum, pageSize, tab } = this.state;
+    //             actions.getList({
+    //                 params: pageNum,
+    //                 limit: pageSize,
+    //                 tab: tab
+    //             });
+    //         });
+    //     }
+    // }
 
     render() {
         let { $$list } = this.props;
         let listData = $$list.toJS();
+        console.log('-- props --', this.props);
+        console.log('----------------------')
         return (
-            <div style={{marginTop: '1rem'}}>
+            <div style={{marginTop: '.8rem'}}>
                 <List>
                     {
-                        listData.length !== 0 ? (
-                            listData.map((item, index) => {
+                        listData && listData.list.length !== 0 ? (
+                            listData.list.map((item, index) => {
                                 return (
                                     <Item key={index}
-                                        tagText={item}
-                                        tagColor
-                                        title
-                                        avatar
-                                        userName
+                                        data={item}
                                     ></Item>
                                 )
                             })

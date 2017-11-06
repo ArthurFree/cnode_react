@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter, HashRouter, Switch } from 'react-router-dom';
+import { Route, BrowserRouter, HashRouter, Switch, Redirect } from 'react-router-dom';
 import createHistory from 'history/createHashHistory';
 import { getRoute, asyncComponent } from './core';
 
@@ -20,6 +20,14 @@ export default class AppRouter extends Component {
                 {
                     path: '/demo/detail',
                     component: asyncComponent(() => import('../views/demo/detail.js'))
+                },
+                {
+                    path: '/list/:tab',
+                    component: asyncComponent(() => import('../views/list/list_view.js'))
+                },
+                {
+                    path: '/',
+                    component: asyncComponent(() => import('../views/list/list_view.js'))
                 },
                 {
                     path: '/list',
@@ -52,8 +60,13 @@ export default class AppRouter extends Component {
     generateRoutes(route) {
         let _route = [];
         route.routes.map((route, index) => {
+            // if (index === 0) {
+            //     _route.push(
+            //         <Redirect key={index} path="/" to="/list/all" exact></Redirect>
+            //     );
+            // }
             _route.push(
-                <Route key={index} path={route.path} exact render={props => <route.component {...props} />}></Route>
+                <Route key={index+1} path={route.path} exact render={props => <route.component {...props} />}></Route>
             )
         });
         return (

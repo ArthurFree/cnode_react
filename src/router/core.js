@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function asyncComponent(getComponent) {
+export function asyncComponent1(getComponent) {
     return class AsyncComponent extends React.Component {
         static Component = null;
         state = { Component: AsyncComponent.Component };
@@ -28,3 +28,31 @@ export function asyncComponent(getComponent) {
         }
     }
 }
+
+export function asyncComponent(importComponent) {
+    class AsyncComponent extends React.Component {
+      constructor(props) {
+        super(props);
+
+        this.state = {
+          component: null
+        };
+      }
+
+      async componentDidMount() {
+        const { default: component } = await importComponent();
+
+        this.setState({
+          component: component
+        });
+      }
+
+      render() {
+        const C = this.state.component;
+
+        return C ? <C {...this.props} /> : null;
+      }
+    }
+
+    return AsyncComponent;
+  }

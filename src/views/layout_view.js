@@ -2,7 +2,8 @@ import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, NavLink, withRouter } from 'react-router-dom';
+import { MENU } from 'constants/constants.js';
 import Tag from 'components/tag';
 import ListItem from 'components/listItem';
 import Header from 'components/header';
@@ -17,31 +18,89 @@ import 'assets/style/views/layout.less';
 class Layout extends React.Component {
     constructor(props) {
         super(props);
+        let path = props.location.pathname.split('/')[2];
         this.state = {
-            isShow: false
+            isShow: false,
+            isScroll: true,
+            headerTitle: path ? MENU[path] : MENU['all'],
+            path: path ? path : 'all',
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        let prevProps = this.props;
+        if (!Immutable.fromJS(prevProps).equals(Immutable.fromJS(nextProps))) {
+            if (prevProps.location.pathname !== nextProps.location.pathname) {
+                let path = nextProps.location.pathname.split('/')[2];
+                this.setState({
+                    headerTitle: path ? MENU[path] : MENU['all'],
+                    path: path ? path : 'all',
+                });
+            }
+        }
+    }
+
+    // 菜单控制
     handleClick = () => {
         let { isShow } = this.state;
+        this.scrollControl();
         this.setState({
-            isShow: !isShow
+            isShow: !isShow,
         });
     }
 
-    testClick = () => {
-        console.log('---- click ---');
+    // 控制滚动
+    scrollControl = () => {
+        let { isScroll } = this.state;
+        let overflow = isScroll ? 'hidden' : 'visible';
+        document.documentElement.style.overflow = overflow;
+        this.setState({
+            isScroll: !isScroll
+        });
     }
 
-    testClick1 = (e) => {
-        console.log('--- e ---', e);
+    // 跳转
+    gotoUrl = (path) => {
+        let self = this;
+        return function () {
+            let { history } = self.props;
+            self.scrollControl();
+            history.replace(`/list/${path}`);
+        }
     }
 
     render() {
         return (
             <div>
-                <Header onClick={this.handleClick}></Header>
-                <Menu show={this.state.isShow}></Menu>
+                <div>
+                    <Header onClick={this.handleClick} title={this.state.headerTitle}></Header>
+                    <Menu show={this.state.isShow} maskClick={this.handleClick}>
+                        <div className="nav-list">
+                            <ul>
+                                <li onClick={this.gotoUrl('all')}>
+                                    <i className="icon iconfont cnode-star" style={{color: 'yellow'}}></i>
+                                    <span className="menu-text" onClick={this.handleClickLink}>全部</span>
+                                </li>
+                                <li onClick={this.gotoUrl('good')}>
+                                    <i className="icon iconfont cnode-star" style={{color: '#e67e22'}}></i>
+                                    <span className="menu-text">精华</span>
+                                </li>
+                                <li onClick={this.gotoUrl('share')}>
+                                    <i className="icon iconfont cnode-star" style={{color: '#1abc9c'}}></i>
+                                    <span className="menu-text">分享</span>
+                                </li>
+                                <li onClick={this.gotoUrl('ask')}>
+                                    <i className="icon iconfont cnode-star" style={{color: '#3498db'}}></i>
+                                    <span className="menu-text">问答</span>
+                                </li>
+                                <li onClick={this.gotoUrl('job')}>
+                                    <i className="icon iconfont cnode-star" style={{color: '#9b59b6'}}></i>
+                                    <span className="menu-text">招聘</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </Menu>
+                </div>
                 <div>
                     { this.props.children }
                 </div>

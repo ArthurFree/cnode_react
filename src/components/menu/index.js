@@ -21,19 +21,20 @@ export default class Menu extends React.Component {
     }
 
     handleClick = () => {
-        let { show } = this.state;
-        this.setState({
-            show: !show
-        });
+        const { maskClick } = this.props;
+        maskClick();
     }
 
     render() {
         const { show } = this.state;
-        return show ? (
+        return (
             <div className="menu-component">
-                <div className='menu-cover show-nav'></div>
-                <div className='menu-nav show-nav'></div>
+                <div className={show ? 'menu-cover show-nav' : 'menu-cover'}
+                    onClick={this.handleClick}></div>
+                <div className={show ? 'menu-nav show-nav' : 'menu-nav'}>
+                    { this.props.children }
+                </div>
             </div>
-        ) : null;
+        )
     }
 }

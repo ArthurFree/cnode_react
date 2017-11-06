@@ -23,10 +23,11 @@ export default class Header extends React.Component {
     }
 
     render() {
+        let { title } = this.props;
         return (
             <div className="header-component">
                 <div className="header-nav" onClick={this.handleClick}></div>
-                <div className="header-title">全部</div>
+                <div className="header-title">{title}</div>
                 <div className="header-operate"></div>
             </div>
         )
