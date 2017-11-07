@@ -41,7 +41,7 @@ class Layout extends React.Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('touchmove', this.handleTouch, false);
+        window.removeEventListener('touchmove', this.handleTouchControl, false);
     }
 
     // 菜单控制
@@ -53,7 +53,7 @@ class Layout extends React.Component {
         });
     }
 
-    handleTouch = (e) => {
+    handleTouchControl = (e) => {
         e.preventDefault();
     }
 
@@ -64,9 +64,9 @@ class Layout extends React.Component {
 
         document.documentElement.style.overflow = overflow;
         if (isScroll) {
-            window.addEventListener('touchmove', this.handleTouch, false);
+            window.addEventListener('touchmove', this.handleTouchControl, false);
         } else {
-            window.removeEventListener('touchmove', this.handleTouch, false);
+            window.removeEventListener('touchmove', this.handleTouchControl, false);
         }
 
         this.setState({

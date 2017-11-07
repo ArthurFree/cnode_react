@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
 import { TAG, TAG_COLOR } from 'constants/constants.js';
+import utils from 'utils';
 import List from 'components/list';
 import ListItem from 'components/listItem';
 import Tag from 'components/tag';
@@ -66,18 +67,71 @@ class ListPage extends Component {
         let tab = props.match.params.tab
         this.state = {
             pageNum: 1,
-            pageSize: 10,
+            pageSize: 20,
             tab: tab == 'all' || !tab ? null : tab,
         }
+        this.startY = 0;
+        this.direction = '';
     }
 
     componentDidMount() {
+        this.getList();
+
+        window.addEventListener('scroll', utils.throttle(this.handleScroll, 200, {
+            leading: true,
+            trailing: true
+        }), false);
+
+        // window.addEventListener('touchstart',  this.handleTouchStart, false);
+
+        // window.addEventListener('touchmove', utils.throttle(this.handleTouch, 200, {
+        //     leading: true,
+        //     trailing: true
+        // }), false);
+
+        // window.addEventListener('scroll', function () {
+        //     console.log('--- load ---');
+        // }, false);
+    }
+
+    getList = () => {
         let { actions } = this.props;
         actions.getList({
             page: this.state.pageNum,
             limit: this.state.pageSize,
             tab: this.state.tab
         });
+    }
+
+    handleTouchStart = (e) => {
+        this.startY = e.touches[0].pageY;
+    }
+
+    handleTouch = (e) => {
+        let curY = e.touches[0].pageY;
+        let moveY = curY - this.startY;
+        if (moveY > 0) {
+            this.direction = 'down';
+        } else {
+            this.direction = 'up';
+        }
+    }
+
+    handleScroll = (e) => {
+        let doc = document.documentElement;
+        let docScrollHeight = doc.scrollHeight;
+        let docScrollTop = doc.scrollTop ? doc.scrollTop : window.pageYOffset;
+        let docClientHeight = doc.clientHeight;
+        // alert(docScrollHeight+ ',' + docScrollTop + ',' + docClientHeight)
+        console.log('--- docScrollHeight docScrollTop docClientHeight ---', docScrollHeight, docScrollTop, docClientHeight);
+        if ((docClientHeight + docScrollTop + 200) >= docScrollHeight) {
+            let { pageSize } = this.state;
+            this.setState({
+                pageSize: pageSize + 20
+            }, () => {
+                this.getList();
+            });
+        }
     }
 
     // componentWillReceiveProps(nextProps) {
@@ -103,8 +157,6 @@ class ListPage extends Component {
     render() {
         let { $$list } = this.props;
         let listData = $$list.toJS();
-        console.log('-- props --', this.props);
-        console.log('----------------------')
         return (
             <div style={{marginTop: '.8rem'}}>
                 <List>
