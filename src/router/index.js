@@ -40,6 +40,10 @@ export default class AppRouter extends Component {
             {
                 path: '/login',
                 component: asyncComponent(() => import('../views/login/index.js'))
+            },
+            {
+                path: '/upload',
+                component: asyncComponent(() => import('../views/upload/index.js'))
             }
         ];
         const routesJSX = this.generateRoutes(rootRoute);
