@@ -13,6 +13,9 @@ export default class Uploader extends Component {
         this.options = props.options;
         this.state = {
             imgItemList: [],
+            currImg: null,
+            isShowGallery: false,
+            currImgIndex: null,
         }
     }
 
@@ -44,12 +47,25 @@ export default class Uploader extends Component {
         // if (options.auto) file.upload();
     }
 
+    // 展示图片
+    showGallery = (img, index) => {
+        const self = this;
+        return function () {
+            self.setState({
+                currImg: img,
+                currImgIndex: index,
+                isShowGallery: true,
+            });
+        }
+    }
+
     // 添加 上传图片 缩略图
     addImgItemList = (img) => {
         let { imgItemList } = this.state;
         let key = imgItemList.length;
         imgItemList.push(
             <li className="uploader_file" key={key}
+                onClick={this.showGallery(img, key)}
                 style={{ backgroundImage: 'url("'+img+'")' }}></li>
         );
 
@@ -74,8 +90,6 @@ export default class Uploader extends Component {
 
     // 文件添加成功
     onQueued = () => {
-        // const { options } = this.props;
-
         if (this.options.onQueued) {
             const onQueued = this.options.onQueued;
             const self = this;
@@ -96,7 +110,6 @@ export default class Uploader extends Component {
     handleChange = (event) => {
         let files = event.target.files;
         // let { options } = this.props;
-
         if (files.length === 0) {
             return;
         }
@@ -111,6 +124,18 @@ export default class Uploader extends Component {
         });
     }
 
+    // 隐藏图片展示
+    handleClickCacel = () => {
+        this.setState({
+            isShowGallery: false,
+        });
+    }
+
+    // 删除图片
+    handleDelete = () => {
+        console.log('--- index img ---', this.state.currImgIndex);
+    }
+
     render() {
         return (
             <div>
@@ -120,6 +145,17 @@ export default class Uploader extends Component {
                         className="uploader_input"
                         type="file" accept="image/*" capture="camera" multiple />
                 </div>
+                {
+                    this.state.isShowGallery ? (
+                        <div className="gallery"
+                            onClick={this.handleClickCacel}>
+                            <span className="gallery_img" style={{ backgroundImage: 'url('+this.state.currImg+')' }}></span>
+                            <div className="gallery_opr" onClick={this.handleDelete}>
+                                <i className="icon iconfont cnode-star"></i>
+                            </div>
+                        </div>
+                    ) : null
+                }
             </div>
         )
     }
