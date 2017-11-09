@@ -86,14 +86,23 @@ class ListPage extends Component {
     componentDidMount() {
         this.getList();
 
-        window.addEventListener('scroll', utils.throttle(this.handleScroll, 300, {
-            leading: true,
-            trailing: true
-        }), false);
+        window.addEventListener('scroll', this.handleScrollThrottle, false);
     }
 
     componentUnmount() {
         this.pageNum = 1;
+
+        window.removeEventListener('scroll', this.handleScrollThrottle, false);
+    }
+
+    handleScrollThrottle = () => {
+        console.log('--- scroll ---');
+        let func = utils.throttle(this.handleScroll, 500, {
+            leading: true,
+            trailing: true
+        });
+
+        func();
     }
 
     getList = () => {
@@ -134,6 +143,7 @@ class ListPage extends Component {
     gotoDetail = (url) => {
         let { history } = this.props;
         this.pageNum = 1;
+        window.removeEventListener('scroll', this.handleScrollThrottle, false);
         history.push(`/detail/${url}`);
     }
 

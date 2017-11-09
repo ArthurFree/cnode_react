@@ -133,7 +133,13 @@ export default class Uploader extends Component {
 
     // 删除图片
     handleDelete = () => {
+        let { currImgIndex, imgItemList } = this.state;
         console.log('--- index img ---', this.state.currImgIndex);
+
+        imgItemList.splice(currImgIndex, 1);
+        this.setState({
+            imgItemList,
+        });
     }
 
     render() {
