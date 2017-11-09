@@ -151,7 +151,9 @@ export default class Uploader extends Component {
                             onClick={this.handleClickCacel}>
                             <span className="gallery_img" style={{ backgroundImage: 'url('+this.state.currImg+')' }}></span>
                             <div className="gallery_opr" onClick={this.handleDelete}>
-                                <i className="icon iconfont cnode-star"></i>
+                                <a href="javascript:" className="gallery_del">
+                                    <i className="icon iconfont cnode-star"></i>
+                                </a>
                             </div>
                         </div>
                     ) : null
