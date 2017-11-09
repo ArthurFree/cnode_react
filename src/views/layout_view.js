@@ -18,12 +18,26 @@ import 'assets/style/views/layout.less';
 class Layout extends React.Component {
     constructor(props) {
         super(props);
-        let path = props.location.pathname.split('/')[2];
+        let title = '';
+
+        this.getHeaderTitle = (location) => {
+            let currPath = location.pathname.split('/');
+            if (currPath[2]) {
+                if (currPath[1] == 'detail') {
+                    return MENU['detail']
+                }
+
+                return MENU[currPath[2]];
+            }
+
+            return MENU['all']
+        }
+
+        title = this.getHeaderTitle(props.location);
         this.state = {
             isShow: false,
             isScroll: true,
-            headerTitle: path ? MENU[path] : MENU['all'],
-            path: path ? path : 'all',
+            headerTitle: title,
         }
     }
 
@@ -33,8 +47,7 @@ class Layout extends React.Component {
             if (prevProps.location.pathname !== nextProps.location.pathname) {
                 let path = nextProps.location.pathname.split('/')[2];
                 this.setState({
-                    headerTitle: path ? MENU[path] : MENU['all'],
-                    path: path ? path : 'all',
+                    headerTitle: this.getHeaderTitle(nextProps.location),
                 });
             }
         }
@@ -116,7 +129,7 @@ class Layout extends React.Component {
                         </div>
                     </Menu>
                 </div>
-                <div>
+                <div style={{ marginTop: '.8rem' }}>
                     { this.props.children }
                 </div>
             </div>

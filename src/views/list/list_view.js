@@ -18,6 +18,14 @@ class Item extends Component {
         super(props);
     }
 
+    handleClick = (url) => {
+        let { onClick } = this.props;
+
+        if (onClick && typeof onClick == 'function') {
+            return onClick.bind(this, url);
+        }
+    }
+
     getItem() {
         let { data } = this.props;
         let headerNode = (
@@ -52,7 +60,7 @@ class Item extends Component {
         )
 
         return (
-            <ListItem header={headerNode} content={contentNode}></ListItem>
+            <ListItem header={headerNode} content={contentNode} onClick={this.handleClick(data.id)} />
         )
     }
 
@@ -72,34 +80,29 @@ class ListPage extends Component {
         }
         this.startY = 0;
         this.direction = '';
+        this.pageNum = 1;
     }
 
     componentDidMount() {
         this.getList();
 
-        window.addEventListener('scroll', utils.throttle(this.handleScroll, 200, {
+        window.addEventListener('scroll', utils.throttle(this.handleScroll, 300, {
             leading: true,
             trailing: true
         }), false);
+    }
 
-        // window.addEventListener('touchstart',  this.handleTouchStart, false);
-
-        // window.addEventListener('touchmove', utils.throttle(this.handleTouch, 200, {
-        //     leading: true,
-        //     trailing: true
-        // }), false);
-
-        // window.addEventListener('scroll', function () {
-        //     console.log('--- load ---');
-        // }, false);
+    componentUnmount() {
+        this.pageNum = 1;
     }
 
     getList = () => {
-        let { actions } = this.props;
+        const { actions } = this.props;
+        const { pageSize, tab } = this.state;
         actions.getList({
-            page: this.state.pageNum,
-            limit: this.state.pageSize,
-            tab: this.state.tab
+            page: this.pageNum,
+            limit: pageSize,
+            tab: tab
         });
     }
 
@@ -122,51 +125,29 @@ class ListPage extends Component {
         let docScrollHeight = doc.scrollHeight;
         let docScrollTop = doc.scrollTop ? doc.scrollTop : window.pageYOffset;
         let docClientHeight = doc.clientHeight;
-        // alert(docScrollHeight+ ',' + docScrollTop + ',' + docClientHeight)
-        console.log('--- docScrollHeight docScrollTop docClientHeight ---', docScrollHeight, docScrollTop, docClientHeight);
         if ((docClientHeight + docScrollTop + 200) >= docScrollHeight) {
-            let { pageSize } = this.state;
-            this.setState({
-                pageSize: pageSize + 20
-            }, () => {
-                this.getList();
-            });
+            ++this.pageNum;
+            this.getList();
         }
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     let tab = nextProps.match.params.tab;
-    //     let { actions } = this.props;
-    //     let prevProps = this.props;
-    //     tab = tab ? tab : null;
-    //     console.log(tab, this.state.tab);
-    //     if (tab !== this.state.tab) {
-    //         this.setState({
-    //             tab: tab == 'all' || !tab ? null : tab,
-    //         }, () => {
-    //             let { pageNum, pageSize, tab } = this.state;
-    //             actions.getList({
-    //                 params: pageNum,
-    //                 limit: pageSize,
-    //                 tab: tab
-    //             });
-    //         });
-    //     }
-    // }
+    gotoDetail = (url) => {
+        let { history } = this.props;
+        this.pageNum = 1;
+        history.push(`/detail/${url}`);
+    }
 
     render() {
         let { $$list } = this.props;
         let listData = $$list.toJS();
         return (
-            <div style={{marginTop: '.8rem'}}>
+            <div>
                 <List>
                     {
                         listData && listData.list.length !== 0 ? (
                             listData.list.map((item, index) => {
                                 return (
-                                    <Item key={index}
-                                        data={item}
-                                    ></Item>
+                                    <Item key={index} data={item} onClick={this.gotoDetail} />
                                 )
                             })
                         ) : null

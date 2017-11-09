@@ -16,5 +16,8 @@ export default function listReducer(state = initState, action) {
 }
 
 function getList(state, data) {
-    return state.set('list', data);
+    let list = state.get('list');
+    list = list.concat(data);
+
+    return state.set('list', list);
 }
