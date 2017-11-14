@@ -13,15 +13,23 @@ let _cfg = Object.assign({}, webpackBaseConfig, {
     devtool: 'cheap-eval-source-map',
 });
 
-_cfg.module.rules = [{
-    enforce: 'pre',
-    test: /\.js$/,
-    exclude: /node_modules/,
-    loader: 'eslint-loader',
-    options: {
-        formatter,
+_cfg.module.rules = [
+    {
+        test: /\.(ts|tsx)$/,
+        loader: 'tslint-loader',
+        enforce: 'pre',
+        include: path.resolve(__dirname, '..', './src')
+    },
+    {
+        enforce: 'pre',
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
+            formatter,
+        }
     }
-}].concat(_cfg.module.rules);
+].concat(_cfg.module.rules);
 
 function getHtmlChunks() {
     return new HtmlWebpackPlugin({

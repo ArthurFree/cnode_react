@@ -1,10 +1,14 @@
-const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+'use strict';
+
 const autoprefixer = require('autoprefixer');
+const path = require('path');
+// const webpack = require('webpack');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pxtorem = require('postcss-pxtorem');
 
-function resolve(dir) {
-    return path.join(__dirname, '..', dir);
+function resolve(pathname) {
+    return path.resolve(__dirname, '..', pathname);
 }
 
 const postcssOpts = {
@@ -18,7 +22,6 @@ const postcssOpts = {
 };
 
 module.exports = {
-
     entry: {
         'app': [
             'webpack-hot-middleware/client?noInfo=true&reload=true',
@@ -30,12 +33,13 @@ module.exports = {
         filename: '[name].js',
         chunkFilename: '[id].chunk.js',
         path: resolve('dist/static'),
+        pathinfo: true,
         publicPath: './static/',
     },
 
     resolve: {
         modules: [resolve('node_modules'), resolve('src')],
-        extensions: ['.js', '.jsx', '.json', '.css', '.less'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css', '.less'],
         alias: {
             'assets': resolve('./src/assets'),
             'actions': resolve('./src/actions'),
@@ -50,15 +54,15 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-                options: {
-                    plugins: [
-                        ['transform-runtime', { ployfill: false }],
-                    ],
-                    presets: ['es2015', 'stage-0', 'react']
-                },
+                test: /\.js$/,
+                loader: 'source-map-loader',
+                enforce: 'pre',
+                include: resolve('src')
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                include: resolve('src'),
+                loader: 'ts-loader',
             },
             {
                 test: /\.(jpg|png)$/,
@@ -114,8 +118,8 @@ module.exports = {
                     ]
                 })
             }
-        ]
+        ],
     },
 
-    plugins: [],
+    plugins: []
 }

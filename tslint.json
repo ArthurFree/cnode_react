@@ -1,0 +1,100 @@
+{
+    "extends": ["tslint:latest", "tslint-react"],
+    "rules": {
+        // 强制垂直对齐
+        "align": [
+            true,
+            "parameters", // 函数参数对齐
+            "arguments",  // 函数调用对齐
+            "statements"  // 声明对齐
+        ],
+        "ban": false,     // 禁止使用特定的功能或全局的方法
+        "class-name": true,  // 强制使用大驼峰命名类和接口的名称。
+        "comment-format": [  // 单行注释格式: // comment
+            true,
+            "check-space"
+        ],
+        "curly": true,
+        "eofline": false,
+        "forin": true,
+        "indent": [ true, "spaces" ],
+        "interface-name": [true, "never-prefix"],
+        "jsdoc-format": true,
+        "jsx-no-lambda": false,
+        "jsx-no-multiline-js": false,
+        "label-position": true,
+        "max-line-length": [ true, 120 ],
+        // "member-ordering": [
+        //     true,
+        //     "public-before-private",
+        //     "static-before-instance",
+        //     "variables-before-functions"
+        // ],
+        // "no-any": true,  // 不允许使用 any 类型
+        "no-arg": true,     // 不允许使用 argument.callee
+        // "no-bitwise": true,  // 不允许使用按位操作符
+        // 不允许使用 console
+        // "no-console": [
+        //     true,
+        //     "log",
+        //     "error",
+        //     "debug",
+        //     "info",
+        //     "time",
+        //     "timeEnd",
+        //     "trace"
+        // ],
+        "no-consecutive-blank-lines": true,
+        // "no-construct": true,
+        "no-debugger": true,
+        "no-duplicate-variable": true,
+        "no-empty": true,
+        "no-eval": true,
+        "no-shadowed-variable": true,
+        "no-string-literal": true,
+        "no-switch-case-fall-through": true,
+        "no-trailing-whitespace": true,
+        "no-unused-expression": true,
+        // "no-unreachable": true,
+        "no-use-before-declare": false,
+        "no-submodule-imports": false,
+        "one-line": [
+            true,
+            "check-open-brace",
+            "check-whitespace",
+            "check-catch"
+        ],
+        "quotemark": [true, "single", "jsx-double"],
+        "radix": true,
+        "semicolon": [true, "always"],
+        "switch-default": true,
+
+        "trailing-comma": [false],
+
+        "triple-equals": [ true, "allow-null-check" ],
+        "typedef": [
+            true,
+            "parameter",
+            "property-declaration"
+        ],
+        "typedef-whitespace": [
+            true,
+            {
+                "call-signature": "nospace",
+                "index-signature": "nospace",
+                "parameter": "nospace",
+                "property-declaration": "nospace",
+                "variable-declaration": "nospace"
+            }
+        ],
+        "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
+        "whitespace": [
+            true,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-separator",
+            "check-type"
+        ]
+    }
+}
